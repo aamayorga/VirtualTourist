@@ -25,7 +25,7 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     @IBAction func getNewCollectionOfPhotos(_ sender: UIBarButtonItem) {
-        
+        print("New Collection Button tapped")
     }
     
     /*
