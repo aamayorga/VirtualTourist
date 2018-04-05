@@ -25,15 +25,28 @@
                                     <outletCollection property="gestureRecognizers" destination="Ok0-G6-XJb" appends="YES" id="XdD-Rj-ALB"/>
                                 </connections>
                             </mapView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap a pin to delete it" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cfx-6b-gaZ">
+                                <rect key="frame" x="0.0" y="607" width="375" height="60"/>
+                                <color key="backgroundColor" red="1" green="0.14913141730000001" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="oId-H0-nHv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="Cfx-6b-gaZ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="0ng-s6-YVo"/>
                             <constraint firstItem="4Bi-cD-deq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="3Ub-O1-ghr"/>
                             <constraint firstItem="4Bi-cD-deq" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="Lv5-1e-USB"/>
                             <constraint firstItem="4Bi-cD-deq" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Qfd-tW-yXI"/>
                             <constraint firstItem="4Bi-cD-deq" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="W1c-En-cZj"/>
                             <constraint firstItem="4Bi-cD-deq" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Y3T-MB-Afv"/>
+                            <constraint firstItem="Cfx-6b-gaZ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Yev-wk-Qv0"/>
                             <constraint firstItem="4Bi-cD-deq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zLX-gi-i11"/>
+                            <constraint firstItem="Cfx-6b-gaZ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="zXB-6Z-Fkf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -45,6 +58,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="deleteLabel" destination="Cfx-6b-gaZ" id="gfa-9o-csv"/>
                         <outlet property="mapView" destination="4Bi-cD-deq" id="KlS-Ch-nVI"/>
                     </connections>
                 </viewController>

@@ -13,6 +13,7 @@ import CoreData
 class TravelLocationsViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var deleteLabel: UILabel!
     
     var deleteMode = false
     var dataController: DataController!
@@ -93,7 +94,6 @@ class TravelLocationsViewController: UIViewController {
         
         do {
             try dataController.viewContext.save()
-            
             point.id = pin.objectID    // ID will not be the same if set before context is saved
         } catch {
             print("Failed to save data")
@@ -106,6 +106,7 @@ class TravelLocationsViewController: UIViewController {
     @IBAction func editPins(_ sender: UIBarButtonItem) {
         print("Edit Button tapped")
         deleteMode = !deleteMode
+        deleteLabel.isHidden = !deleteLabel.isHidden
     }
     
     func deletePin(_ annotationView: MKAnnotationView) {
@@ -143,6 +144,9 @@ extension TravelLocationsViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
+//            if let pin = anObject as? Pin {
+//                addPinsToMap([pin])
+//            }
             break
         case .delete:
             break
