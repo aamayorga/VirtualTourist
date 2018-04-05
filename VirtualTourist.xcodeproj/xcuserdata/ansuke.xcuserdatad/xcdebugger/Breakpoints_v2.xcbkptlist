@@ -10,18 +10,24 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "VirtualTourist/Controller/TravelLocationsViewController.swift"
-            timestampString = "544452615.4097739"
+            timestampString = "544633446.921319"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "mapView(_:didSelect:)"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "controller(_:didChange:at:for:newIndexPath:)"
             landmarkType = "7">
             <Actions>
                <BreakpointActionProxy
                   ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
                   <ActionContent
-                     consoleCommand = "po annotation.coordinate">
+                     consoleCommand = "po anObject">
+                  </ActionContent>
+               </BreakpointActionProxy>
+               <BreakpointActionProxy
+                  ActionExtensionID = "Xcode.BreakpointAction.Sound">
+                  <ActionContent
+                     soundName = "Basso">
                   </ActionContent>
                </BreakpointActionProxy>
             </Actions>

@@ -17,6 +17,7 @@
 		4B8F4CAA206A9387006AEE8D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B8F4CA9206A9387006AEE8D /* Default-568h@2x.png */; };
 		4BD64069206D54370045DEAA /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD64068206D54370045DEAA /* PhotoAlbumViewController.swift */; };
 		4BD6406B206DE44B0045DEAA /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD6406A206DE44B0045DEAA /* DataController.swift */; };
+		4BD64075207644C90045DEAA /* MKPointIDAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD64074207644C90045DEAA /* MKPointIDAnnotation.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		4B8F4CA9206A9387006AEE8D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		4BD64068206D54370045DEAA /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 		4BD6406A206DE44B0045DEAA /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		4BD64074207644C90045DEAA /* MKPointIDAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKPointIDAnnotation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 			children = (
 				4B8F4CA6206A9200006AEE8D /* FlickrConstants.swift */,
 				4BD6406A206DE44B0045DEAA /* DataController.swift */,
+				4BD64074207644C90045DEAA /* MKPointIDAnnotation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -182,6 +185,7 @@
 				4B8F4C94206A8B31006AEE8D /* VirtualTourist.xcdatamodeld in Sources */,
 				4B8F4CA3206A9178006AEE8D /* TravelLocationsViewController.swift in Sources */,
 				4BD64069206D54370045DEAA /* PhotoAlbumViewController.swift in Sources */,
+				4BD64075207644C90045DEAA /* MKPointIDAnnotation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
