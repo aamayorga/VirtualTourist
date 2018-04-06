@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "Yes"
             filePath = "VirtualTourist/Controller/TravelLocationsViewController.swift"
-            timestampString = "544672845.916696"
+            timestampString = "544709270.258787"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "146"
-            endingLineNumber = "146"
+            startingLineNumber = "178"
+            endingLineNumber = "178"
             landmarkName = "controller(_:didChange:at:for:newIndexPath:)"
             landmarkType = "7">
             <Actions>
@@ -38,20 +38,36 @@
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
-            continueAfterRunningActions = "Yes"
+            continueAfterRunningActions = "No"
             filePath = "VirtualTourist/Controller/TravelLocationsViewController.swift"
-            timestampString = "544672845.917042"
+            timestampString = "544709270.2593091"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "67"
-            endingLineNumber = "67"
-            landmarkName = "addPinsToMap(_:)"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "viewWillDisappear(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "Yes"
+            filePath = "VirtualTourist/Controller/TravelLocationsViewController.swift"
+            timestampString = "544709270.259607"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "saveMapSpan()"
             landmarkType = "7">
             <Actions>
                <BreakpointActionProxy
-                  ActionExtensionID = "Xcode.BreakpointAction.DebuggerCommand">
+                  ActionExtensionID = "Xcode.BreakpointAction.Sound">
                   <ActionContent
-                     consoleCommand = "po ADD ALL THE PINS">
+                     soundName = "Glass">
                   </ActionContent>
                </BreakpointActionProxy>
             </Actions>

@@ -17,6 +17,7 @@ class TravelLocationsViewController: UIViewController {
     @IBOutlet var addPinLongPressGesture: UILongPressGestureRecognizer!
     
     var deleteMode = false
+    var currentMapViewSpan = MKCoordinateRegion()
     var dataController: DataController!
     var fetchedResultsController:NSFetchedResultsController<Pin>!
     
@@ -39,7 +40,9 @@ class TravelLocationsViewController: UIViewController {
         super.viewDidLoad()
         
         mapView.delegate = self
+        
         setUpFetchResultsController()
+        setMapSpan()
         addPinsToMap(fetchedResultsController.fetchedObjects!)
     }
     
@@ -56,6 +59,27 @@ class TravelLocationsViewController: UIViewController {
     }
     
     // MARK: Helper
+    func setMapSpan() {
+        
+        guard let regionCenterLatitude = UserDefaults.standard.value(forKey: "regionCenterLatitude") as? Double,
+            let regionCenterLongitude = UserDefaults.standard.value(forKey: "regionCenterLongitude") as? Double,
+            let regionSpanLatitude = UserDefaults.standard.value(forKey: "regionSpanLatitude") as? Double,
+            let regionSpanLongitude = UserDefaults.standard.value(forKey: "regionSpanLongitude") as? Double else {
+            print("First time booting app")
+            return
+        }
+        
+        mapView.setRegion(MKCoordinateRegionMake(CLLocationCoordinate2D(latitude: regionCenterLatitude, longitude: regionCenterLongitude), MKCoordinateSpan(latitudeDelta: regionSpanLatitude, longitudeDelta: regionSpanLongitude)), animated: false)
+    }
+    
+    func saveMapSpan() {
+        let region = mapView.region
+        
+        UserDefaults.standard.set(region.center.latitude, forKey: "regionCenterLatitude")
+        UserDefaults.standard.set(region.center.longitude, forKey: "regionCenterLongitude")
+        UserDefaults.standard.set(region.span.latitudeDelta, forKey: "regionSpanLatitude")
+        UserDefaults.standard.set(region.span.longitudeDelta, forKey: "regionSpanLongitude")
+    }
     
     func goToPhotoAlbumView(annotation: MKAnnotation) {
         let photoAlbumVC = storyboard?.instantiateViewController(withIdentifier: "photoAlbumVC") as! PhotoAlbumViewController
@@ -137,6 +161,14 @@ extension TravelLocationsViewController: MKMapViewDelegate {
         } else {
             goToPhotoAlbumView(annotation: view.annotation!)
         }
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        currentMapViewSpan = mapView.region
+        print(mapView.region.center.latitude)
+        print(mapView.region.center.longitude)
+        print(mapView.region.span.latitudeDelta)
+        print(mapView.region.span.longitudeDelta)
     }
 }
 
