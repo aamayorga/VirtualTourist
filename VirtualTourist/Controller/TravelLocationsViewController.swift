@@ -17,7 +17,6 @@ class TravelLocationsViewController: UIViewController {
     @IBOutlet var addPinLongPressGesture: UILongPressGestureRecognizer!
     
     var deleteMode = false
-    var currentMapViewSpan = MKCoordinateRegion()
     var dataController: DataController!
     var fetchedResultsController:NSFetchedResultsController<Pin>!
     
@@ -27,7 +26,6 @@ class TravelLocationsViewController: UIViewController {
         fetchRequest.sortDescriptors = [sortDesc]
         
         fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: nil)
-        fetchedResultsController.delegate = self
         
         do {
             try fetchedResultsController.performFetch()
@@ -36,6 +34,7 @@ class TravelLocationsViewController: UIViewController {
         }
     }
     
+    // MARK: View methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -58,9 +57,60 @@ class TravelLocationsViewController: UIViewController {
         fetchedResultsController = nil
     }
     
-    // MARK: Helper
-    func setMapSpan() {
+    // MARK: Saving Pins
+    @IBAction func placePin(_ sender: UILongPressGestureRecognizer) {
+        if sender.state != UIGestureRecognizerState.began { return }
         
+        let touchLocation = sender.location(in: mapView)
+        let locationCoordinate = mapView.convert(touchLocation, toCoordinateFrom: mapView)
+        let pointAnnotation = MKPointIDAnnotation()
+        
+        pointAnnotation.coordinate = locationCoordinate
+        
+        savePin(pointAnnotation)
+        mapView.addAnnotation(pointAnnotation)
+    }
+    
+    func savePin(_ point: MKPointIDAnnotation) {
+        let pin = Pin(context: dataController.viewContext)
+        pin.latitude = point.coordinate.latitude
+        pin.longitude = point.coordinate.longitude
+        
+        do {
+            try dataController.viewContext.save()
+            point.id = pin.objectID    // ID will not be the same if set before context is saved
+        } catch {
+            print("Failed to save data")
+        }
+    }
+    
+    
+    // MARK: Removing Pins
+    @IBAction func editPins(_ sender: UIBarButtonItem) {
+        deleteMode = !deleteMode
+        deleteLabel.isHidden = !deleteLabel.isHidden
+        addPinLongPressGesture.isEnabled = !addPinLongPressGesture.isEnabled
+    }
+    
+    func deletePin(_ annotationView: MKAnnotationView) {
+        guard let pointAnnotation = annotationView.annotation as! MKPointIDAnnotation? else {
+            print("Couldn't type cast MKAnnotationView's annotation to custom MKPointIDAnnotation")
+            return
+        }
+        
+        let pinToDelete = fetchedResultsController.managedObjectContext.object(with: pointAnnotation.id)
+        dataController.viewContext.delete(pinToDelete)
+        
+        do {
+            try dataController.viewContext.save()
+            mapView.removeAnnotation(annotationView.annotation!)
+        } catch {
+            print("Failed to save (deleted) data")
+        }
+    }
+    
+    // MARK: Persist Map Zoom
+    func setMapSpan() {
         guard let regionCenterLatitude = UserDefaults.standard.value(forKey: "regionCenterLatitude") as? Double,
             let regionCenterLongitude = UserDefaults.standard.value(forKey: "regionCenterLongitude") as? Double,
             let regionSpanLatitude = UserDefaults.standard.value(forKey: "regionSpanLatitude") as? Double,
@@ -81,6 +131,7 @@ class TravelLocationsViewController: UIViewController {
         UserDefaults.standard.set(region.span.longitudeDelta, forKey: "regionSpanLongitude")
     }
     
+    // MARK: Helper
     func goToPhotoAlbumView(annotation: MKAnnotation) {
         let photoAlbumVC = storyboard?.instantiateViewController(withIdentifier: "photoAlbumVC") as! PhotoAlbumViewController
         photoAlbumVC.annotation = annotation
@@ -96,60 +147,6 @@ class TravelLocationsViewController: UIViewController {
             mapView.addAnnotation(annotation)
         }
     }
-    
-    // MARK: Saving Pins
-    @IBAction func placePin(_ sender: UILongPressGestureRecognizer) {
-        if sender.state != UIGestureRecognizerState.began { return }
-        
-        let touchLocation = sender.location(in: mapView)
-        let locationCoordinate = mapView.convert(touchLocation, toCoordinateFrom: mapView)
-        let pointAnnotation = MKPointIDAnnotation()
-        
-        pointAnnotation.coordinate = locationCoordinate
-        
-        savePin(pointAnnotation)
-        
-        mapView.addAnnotation(pointAnnotation)
-    }
-    
-    func savePin(_ point: MKPointIDAnnotation) {
-        let pin = Pin(context: dataController.viewContext)
-        pin.latitude = point.coordinate.latitude
-        pin.longitude = point.coordinate.longitude
-        
-        do {
-            try dataController.viewContext.save()
-            point.id = pin.objectID    // ID will not be the same if set before context is saved
-        } catch {
-            print("Failed to save data")
-        }
-    }
-    
-    
-    // MARK: Removing Pins
-    
-    @IBAction func editPins(_ sender: UIBarButtonItem) {
-        deleteMode = !deleteMode
-        deleteLabel.isHidden = !deleteLabel.isHidden
-        addPinLongPressGesture.isEnabled = !addPinLongPressGesture.isEnabled
-    }
-    
-    func deletePin(_ annotationView: MKAnnotationView) {
-        guard let pointAnnotation = annotationView.annotation as! MKPointIDAnnotation? else {
-            print("Couldn't type cast MKAnnotationView's annotation to Point Annotation")
-            return
-        }
-        
-        let pinToDelete = fetchedResultsController.managedObjectContext.object(with: pointAnnotation.id)
-        dataController.viewContext.delete(pinToDelete)
-
-        do {
-            try dataController.viewContext.save()
-            mapView.removeAnnotation(annotationView.annotation!)
-        } catch {
-            print("Failed to save (deleted) data")
-        }
-    }
 }
 
 // MARK: Map View Delegate Methods
@@ -162,29 +159,5 @@ extension TravelLocationsViewController: MKMapViewDelegate {
             goToPhotoAlbumView(annotation: view.annotation!)
         }
     }
-    
-    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        currentMapViewSpan = mapView.region
-        print(mapView.region.center.latitude)
-        print(mapView.region.center.longitude)
-        print(mapView.region.span.latitudeDelta)
-        print(mapView.region.span.longitudeDelta)
-    }
 }
 
-// MARK: Fetched Result Controller Delegate Methods
-extension TravelLocationsViewController: NSFetchedResultsControllerDelegate {
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        switch type {
-        case .insert:
-//            if let pin = anObject as? Pin {
-//                addPinsToMap([pin])
-//            }
-            break
-        case .delete:
-            break
-        default:
-            fatalError("Unsupported behavior called")
-        }
-    }
-}
