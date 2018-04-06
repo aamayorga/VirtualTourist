@@ -58,6 +58,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addPinLongPressGesture" destination="Ok0-G6-XJb" id="5lO-PJ-gOC"/>
                         <outlet property="deleteLabel" destination="Cfx-6b-gaZ" id="gfa-9o-csv"/>
                         <outlet property="mapView" destination="4Bi-cD-deq" id="KlS-Ch-nVI"/>
                     </connections>

@@ -14,6 +14,7 @@ class TravelLocationsViewController: UIViewController {
 
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var deleteLabel: UILabel!
+    @IBOutlet var addPinLongPressGesture: UILongPressGestureRecognizer!
     
     var deleteMode = false
     var dataController: DataController!
@@ -104,9 +105,9 @@ class TravelLocationsViewController: UIViewController {
     // MARK: Removing Pins
     
     @IBAction func editPins(_ sender: UIBarButtonItem) {
-        print("Edit Button tapped")
         deleteMode = !deleteMode
         deleteLabel.isHidden = !deleteLabel.isHidden
+        addPinLongPressGesture.isEnabled = !addPinLongPressGesture.isEnabled
     }
     
     func deletePin(_ annotationView: MKAnnotationView) {
