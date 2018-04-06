@@ -111,18 +111,38 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="V7v-Ju-86i">
+                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="photoCellReuseIdentifier" id="V7v-Ju-86i" customClass="PhotoCollectionViewCell" customModule="VirtualTourist" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hlN-6W-pl8">
+                                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                                        </imageView>
+                                                    </subviews>
                                                 </view>
+                                                <constraints>
+                                                    <constraint firstItem="hlN-6W-pl8" firstAttribute="top" secondItem="V7v-Ju-86i" secondAttribute="top" id="4Vd-wi-b24"/>
+                                                    <constraint firstAttribute="trailing" secondItem="hlN-6W-pl8" secondAttribute="trailing" id="6eb-qK-COR"/>
+                                                    <constraint firstAttribute="bottom" secondItem="hlN-6W-pl8" secondAttribute="bottom" id="76e-EI-C8F"/>
+                                                    <constraint firstItem="hlN-6W-pl8" firstAttribute="leading" secondItem="V7v-Ju-86i" secondAttribute="leading" id="zoA-C8-BCf"/>
+                                                </constraints>
+                                                <connections>
+                                                    <outlet property="imageView" destination="hlN-6W-pl8" id="hbO-zK-StQ"/>
+                                                </connections>
                                             </collectionViewCell>
                                         </cells>
                                     </collectionView>
                                 </subviews>
                             </stackView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Images" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e9X-09-v9z">
+                                <rect key="frame" x="133" y="320.5" width="109.5" height="26.5"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -132,13 +152,18 @@
                             <constraint firstItem="mt9-Am-BUA" firstAttribute="centerX" secondItem="cV1-H0-ysH" secondAttribute="centerX" id="R7M-Li-HjX"/>
                             <constraint firstItem="mt9-Am-BUA" firstAttribute="trailing" secondItem="01g-9L-v37" secondAttribute="trailing" id="f8O-bz-XIq"/>
                             <constraint firstItem="vVZ-vw-I48" firstAttribute="top" secondItem="01g-9L-v37" secondAttribute="top" id="gwe-TO-977"/>
+                            <constraint firstItem="e9X-09-v9z" firstAttribute="centerX" secondItem="cV1-H0-ysH" secondAttribute="centerX" id="k12-Jo-CvN"/>
                             <constraint firstItem="01g-9L-v37" firstAttribute="trailing" secondItem="vVZ-vw-I48" secondAttribute="trailing" id="lF6-Xi-LHk"/>
                             <constraint firstItem="vVZ-vw-I48" firstAttribute="leading" secondItem="01g-9L-v37" secondAttribute="leading" id="mTt-hM-BRd"/>
+                            <constraint firstItem="e9X-09-v9z" firstAttribute="centerY" secondItem="cV1-H0-ysH" secondAttribute="centerY" id="ylx-vv-1N9"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="01g-9L-v37"/>
                     </view>
                     <connections>
+                        <outlet property="collectionViewFlowLayout" destination="dZw-2B-cPl" id="Jd1-5Z-gOX"/>
                         <outlet property="mapView" destination="mu8-2M-tO4" id="kbj-v0-wYf"/>
+                        <outlet property="newCollectionBarButton" destination="T9r-cC-OyR" id="myl-5N-Cr1"/>
+                        <outlet property="noImagesLabel" destination="e9X-09-v9z" id="Vlj-ZT-ZCN"/>
                         <outlet property="photoCollectionView" destination="OlD-G1-Isd" id="quG-53-FJY"/>
                     </connections>
                 </viewController>

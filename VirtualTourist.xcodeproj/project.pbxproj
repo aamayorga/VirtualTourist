@@ -18,6 +18,7 @@
 		4BD64069206D54370045DEAA /* PhotoAlbumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD64068206D54370045DEAA /* PhotoAlbumViewController.swift */; };
 		4BD6406B206DE44B0045DEAA /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD6406A206DE44B0045DEAA /* DataController.swift */; };
 		4BD64075207644C90045DEAA /* MKPointIDAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD64074207644C90045DEAA /* MKPointIDAnnotation.swift */; };
+		4BD640792077ADC10045DEAA /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD640782077ADC10045DEAA /* PhotoCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		4BD64068206D54370045DEAA /* PhotoAlbumViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumViewController.swift; sourceTree = "<group>"; };
 		4BD6406A206DE44B0045DEAA /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		4BD64074207644C90045DEAA /* MKPointIDAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKPointIDAnnotation.swift; sourceTree = "<group>"; };
+		4BD640782077ADC10045DEAA /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				4B8F4CA6206A9200006AEE8D /* FlickrConstants.swift */,
 				4BD6406A206DE44B0045DEAA /* DataController.swift */,
 				4BD64074207644C90045DEAA /* MKPointIDAnnotation.swift */,
+				4BD640782077ADC10045DEAA /* PhotoCollectionViewCell.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -180,6 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4B8F4CA7206A9200006AEE8D /* FlickrConstants.swift in Sources */,
+				4BD640792077ADC10045DEAA /* PhotoCollectionViewCell.swift in Sources */,
 				4BD6406B206DE44B0045DEAA /* DataController.swift in Sources */,
 				4B8F4C8C206A8B31006AEE8D /* AppDelegate.swift in Sources */,
 				4B8F4C94206A8B31006AEE8D /* VirtualTourist.xcdatamodeld in Sources */,
