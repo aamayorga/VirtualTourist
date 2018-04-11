@@ -21,7 +21,7 @@ class PhotoAlbumViewController: UIViewController {
     
     var annotation: MKAnnotation!
     
-    var photos = [#imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading")]
+    var photosArray = [#imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading")]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +38,30 @@ class PhotoAlbumViewController: UIViewController {
         collectionViewFlowLayout.minimumInteritemSpacing = space
         collectionViewFlowLayout.minimumLineSpacing = space
         collectionViewFlowLayout.itemSize = CGSize(width: dimension, height: dimension)
+        
+        let flickrClient = FlickrClient()
+        flickrClient.getNewSetOfFlickrPictures(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude) { (success, photos, error) in
+            guard error == nil else {
+                print("Error getting pictures")
+                return
+            }
+            
+            guard success == true else {
+                print("Not successful")
+                return
+            }
+            
+            guard photos != nil else {
+                print("No photos in array")
+                return
+            }
+            
+            DispatchQueue.main.async {
+                self.photosArray = photos!
+                self.photoCollectionView.reloadData()
+            }
+            
+        }
     }
     
     @IBAction func getNewCollectionOfPhotos(_ sender: UIBarButtonItem) {
@@ -58,12 +82,12 @@ class PhotoAlbumViewController: UIViewController {
 
 extension PhotoAlbumViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return photos.count
+        return photosArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! PhotoCollectionViewCell
-        let photo = photos[indexPath.row]
+        let photo = photosArray[indexPath.row]
         
         cell.imageView.image = photo
         cell.imageView.backgroundColor = UIColor.black

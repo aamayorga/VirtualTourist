@@ -19,6 +19,9 @@
 		4BD6406B206DE44B0045DEAA /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD6406A206DE44B0045DEAA /* DataController.swift */; };
 		4BD64075207644C90045DEAA /* MKPointIDAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD64074207644C90045DEAA /* MKPointIDAnnotation.swift */; };
 		4BD640792077ADC10045DEAA /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD640782077ADC10045DEAA /* PhotoCollectionViewCell.swift */; };
+		4BD6407C207B9F880045DEAA /* FlickrClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD6407B207B9F880045DEAA /* FlickrClient.swift */; };
+		4BD64080207BA01D0045DEAA /* FlickrConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD6407F207BA01D0045DEAA /* FlickrConvenience.swift */; };
+		4BD64083207CE9190045DEAA /* FlickrPhotosModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BD64082207CE9190045DEAA /* FlickrPhotosModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,9 @@
 		4BD6406A206DE44B0045DEAA /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		4BD64074207644C90045DEAA /* MKPointIDAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MKPointIDAnnotation.swift; sourceTree = "<group>"; };
 		4BD640782077ADC10045DEAA /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		4BD6407B207B9F880045DEAA /* FlickrClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrClient.swift; sourceTree = "<group>"; };
+		4BD6407F207BA01D0045DEAA /* FlickrConvenience.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrConvenience.swift; sourceTree = "<group>"; };
+		4BD64082207CE9190045DEAA /* FlickrPhotosModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlickrPhotosModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,10 +88,9 @@
 		4B8F4CA0206A8FE0006AEE8D /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4B8F4CA6206A9200006AEE8D /* FlickrConstants.swift */,
+				4BD64081207BA2600045DEAA /* Custom Classes */,
+				4BD6407A207B9EE00045DEAA /* Flickr Client */,
 				4BD6406A206DE44B0045DEAA /* DataController.swift */,
-				4BD64074207644C90045DEAA /* MKPointIDAnnotation.swift */,
-				4BD640782077ADC10045DEAA /* PhotoCollectionViewCell.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -107,6 +112,26 @@
 				4B8F4C97206A8B31006AEE8D /* LaunchScreen.storyboard */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		4BD6407A207B9EE00045DEAA /* Flickr Client */ = {
+			isa = PBXGroup;
+			children = (
+				4BD6407B207B9F880045DEAA /* FlickrClient.swift */,
+				4B8F4CA6206A9200006AEE8D /* FlickrConstants.swift */,
+				4BD6407F207BA01D0045DEAA /* FlickrConvenience.swift */,
+			);
+			path = "Flickr Client";
+			sourceTree = "<group>";
+		};
+		4BD64081207BA2600045DEAA /* Custom Classes */ = {
+			isa = PBXGroup;
+			children = (
+				4BD64074207644C90045DEAA /* MKPointIDAnnotation.swift */,
+				4BD640782077ADC10045DEAA /* PhotoCollectionViewCell.swift */,
+				4BD64082207CE9190045DEAA /* FlickrPhotosModel.swift */,
+			);
+			path = "Custom Classes";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,6 +215,9 @@
 				4B8F4CA3206A9178006AEE8D /* TravelLocationsViewController.swift in Sources */,
 				4BD64069206D54370045DEAA /* PhotoAlbumViewController.swift in Sources */,
 				4BD64075207644C90045DEAA /* MKPointIDAnnotation.swift in Sources */,
+				4BD64080207BA01D0045DEAA /* FlickrConvenience.swift in Sources */,
+				4BD64083207CE9190045DEAA /* FlickrPhotosModel.swift in Sources */,
+				4BD6407C207B9F880045DEAA /* FlickrClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
