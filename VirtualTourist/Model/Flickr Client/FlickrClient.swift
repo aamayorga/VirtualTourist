@@ -10,43 +10,43 @@ import Foundation
 
 class FlickrClient: NSObject {
     func taskForGETMethod(methodParameters: [String: String], completionHandlerForGET: @escaping (_ result: AnyObject?, _ error: Error?) -> Void) {
-        
         let request = NSURLRequest(url: flickrUrlFromParameter(methodParameters))
-        
-        print(request.url?.absoluteString)
-        
-        let urlSession = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
+        let urlTask = URLSession.shared.dataTask(with: request as URLRequest) { (data, response, error) in
             
             func sendError(_ error: String) {
                 print(error)
+                let userInfo = [NSLocalizedDescriptionKey: error]
+                completionHandlerForGET(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
             }
             
             guard error == nil else {
-                sendError("Error")
+                sendError("Error could not complete GET request.")
                 return
             }
             
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode, statusCode >= 200 && statusCode <= 299 else {
-                sendError("Status code returned non-2XX code")
+                sendError("Status code returned non-2XX code.")
                 return
             }
             
             guard let data = data else {
-                sendError("Data is nil")
+                sendError("No data returned by request.")
                 return
             }
             
             self.convertData(data, completionHandlerForConvertData: completionHandlerForGET)
         }
         
-        urlSession.resume()
+        urlTask.resume()
     }
     
     func convertData(_ data: Data, completionHandlerForConvertData: (_ result: AnyObject?, _ error: NSError?) -> Void) {
         
         var parsedResult: AnyObject! = nil
+        
         do {
             parsedResult = try JSONDecoder().decode(FlickrResults.self, from: data) as AnyObject
+            
         } catch {
             let userInfo = [NSLocalizedDescriptionKey: "Could not parse the data as JSON '\(data)'"]
             completionHandlerForConvertData(nil, NSError(domain: "convertData", code: 1, userInfo: userInfo))

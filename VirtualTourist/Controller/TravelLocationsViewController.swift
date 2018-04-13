@@ -132,9 +132,10 @@ class TravelLocationsViewController: UIViewController {
     }
     
     // MARK: Helper
-    func goToPhotoAlbumView(annotation: MKAnnotation) {
+    func goToPhotoAlbumView(annotation: MKPointIDAnnotation) {
         let photoAlbumVC = storyboard?.instantiateViewController(withIdentifier: "photoAlbumVC") as! PhotoAlbumViewController
         photoAlbumVC.annotation = annotation
+        photoAlbumVC.dataController = dataController
         
         navigationController?.pushViewController(photoAlbumVC, animated: true)
     }
@@ -156,7 +157,7 @@ extension TravelLocationsViewController: MKMapViewDelegate {
         if deleteMode {
             deletePin(view)
         } else {
-            goToPhotoAlbumView(annotation: view.annotation!)
+            goToPhotoAlbumView(annotation: view.annotation! as! MKPointIDAnnotation)
         }
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension FlickrClient {
-    func getNewSetOfFlickrPictures(latitude: Double, longitude: Double, completionHandlerForNewSetOfFlickrPictures: @escaping (_ success: Bool, _ pictures: [UIImage]?, _ errorString: String?) -> Void) {
+    func getNewSetOfFlickrPictures(latitude: Double, longitude: Double, completionHandlerForNewSetOfFlickrPictures: @escaping (_ success: Bool, _ data: AnyObject?, _ errorString: String?) -> Void) {
         
         let methodParameters = [FlickrParameterKeys.Method: FlickrParameterValues.PhotosSearch,
                                 FlickrParameterKeys.ApiKey: FlickrParameterValues.ApiKey,
@@ -21,39 +21,30 @@ extension FlickrClient {
                                 FlickrParameterKeys.Longitude: String(longitude)]
         
         taskForGETMethod(methodParameters: methodParameters) { (data, error) in
-            func sendError(_ error: String) {
-                print(error)
+            func sendError(_ errorMessage: String) {
+                completionHandlerForNewSetOfFlickrPictures(false, nil, errorMessage)
             }
             
             guard error == nil else {
-                sendError("There was an error.")
+                sendError("Could not retrieve data")
                 return
             }
             
             guard let data = data else {
-                sendError("Data is nil")
+                sendError("No data was retrieved")
                 return
             }
             
-            let flickrResults = data as! FlickrResults
-            
-            guard let photos = self.parsePictures(fromResults: flickrResults) else {
-                completionHandlerForNewSetOfFlickrPictures(false, nil, "Could not get new pictures")
-                return
-            }
-            
-            completionHandlerForNewSetOfFlickrPictures(true, photos, nil)
+            completionHandlerForNewSetOfFlickrPictures(true, data, nil)
         }
-        
-        
     }
     
-    func parsePictures(fromResults results: FlickrResults) -> [UIImage]? {
-        var photosArray: [UIImage] = []
+    func parsePictures(fromResults results: FlickrResults, completionHandlerForPhoto: (_ photo: Data) -> Void) {
+        var dataArray: [Data] = []
         
         for photoDetails in results.photos.photo {
             
-            if photosArray.count >= 21 {
+            if dataArray.count >= 21 {
                 break
             }
             
@@ -64,15 +55,12 @@ extension FlickrClient {
                 data = try Data(contentsOf: url!)
             } catch {
                 print("Could not convert url to data")
-                return nil
+                return
             }
             
-            let photo = UIImage(data: data)
-            photosArray.append(photo!)
+            dataArray.append(data)
             
-            
+            completionHandlerForPhoto(data)
         }
-        
-        return photosArray
     }
 }
