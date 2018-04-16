@@ -17,7 +17,7 @@ class PhotoAlbumViewController: UIViewController {
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var noImagesLabel: UILabel!
     @IBOutlet weak var photoCollectionView: UICollectionView!
-    @IBOutlet weak var newCollectionBarButton: UIBarButtonItem!
+    @IBOutlet weak var newCollectionOrDeletionBarButton: UIBarButtonItem!
     @IBOutlet weak var collectionViewFlowLayout: UICollectionViewFlowLayout!
     
     var pin: Pin!
@@ -25,11 +25,10 @@ class PhotoAlbumViewController: UIViewController {
     var dataController: DataController!
     var fetchedResultsController:NSFetchedResultsController<Photo>!
     
-    var photosArray = [#imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading"), #imageLiteral(resourceName: "loading")]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        photoCollectionView.delegate = self
         photoCollectionView.dataSource = self
         
         mapView.addAnnotation(annotation)
@@ -63,10 +62,16 @@ class PhotoAlbumViewController: UIViewController {
         fetchedResultsController = nil
     }
     
-    @IBAction func getNewCollectionOfPhotos(_ sender: UIBarButtonItem) {
-        deleteAllPictures()
-        photoCollectionView.reloadData()
-        getNewSetOfPictures()
+    @IBAction func getNewCollectionOfPhotosOrDeletion(_ sender: UIBarButtonItem) {
+        if (sender.title == "New Collection") {
+            deleteAllPictures()
+            photoCollectionView.reloadData()
+            getNewSetOfPictures()
+        } else {
+            deletePictures()
+            photoCollectionView.reloadData()
+        }
+        
     }
     
     func setupFetchedResultsController() {
@@ -114,6 +119,10 @@ class PhotoAlbumViewController: UIViewController {
                     self.savePicture(imageData)
                 })
                 
+                if self.photoCollectionView.numberOfItems(inSection: 0) == 0 {
+                    self.noImagesLabel.isHidden = false
+                }
+                
                 self.toggleUI()
             }
         }
@@ -125,10 +134,28 @@ class PhotoAlbumViewController: UIViewController {
         pictures.photo = imageData
         do {
             try dataController.viewContext.save()
-            print("SAFE!!!")
         } catch {
             print("Could not save picture")
         }
+    }
+    
+    func deletePictures() {
+        
+        guard let selectedItems = photoCollectionView.indexPathsForSelectedItems else {
+            print("Index paths for selected items property is nil")
+            return
+        }
+        
+        newCollectionOrDeletionBarButton.title = "New Collection"
+        for index in selectedItems {
+            let photo = fetchedResultsController.object(at: index)
+            dataController.viewContext.delete(photo)
+            photoCollectionView.deselectItem(at: index, animated: false)
+            
+            let selectedCell = photoCollectionView.cellForItem(at: index) as? PhotoCollectionViewCell
+            selectedCell?.imageView.alpha = 1
+        }
+        try? dataController.viewContext.save()
     }
     
     func deleteAllPictures() {
@@ -141,7 +168,8 @@ class PhotoAlbumViewController: UIViewController {
     
     func toggleUI() {
         DispatchQueue.main.async {
-            self.newCollectionBarButton.isEnabled = !self.newCollectionBarButton.isEnabled
+            self.photoCollectionView.isUserInteractionEnabled = !self.photoCollectionView.isUserInteractionEnabled
+            self.newCollectionOrDeletionBarButton.isEnabled = !self.newCollectionOrDeletionBarButton.isEnabled
         }
     }
 }
@@ -150,16 +178,16 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            print("Something insert something")
             self.photoCollectionView.insertItems(at: [newIndexPath!])
         default:
-            print("Only God knows")
+            print("Unimplemented default action")
         }
     }
 }
 
 extension PhotoAlbumViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        collectionView.allowsMultipleSelection = true
         return fetchedResultsController.sections?[0].numberOfObjects ?? 1
     }
     
@@ -172,5 +200,25 @@ extension PhotoAlbumViewController: UICollectionViewDataSource {
         cell.imageView.backgroundColor = UIColor.black
         
         return cell
+    }
+}
+
+extension PhotoAlbumViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedCell = collectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell
+        selectedCell?.imageView.alpha = 0.25
+        
+        newCollectionOrDeletionBarButton.title = "Remove Selected Pictures"
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let selectedCell = collectionView.cellForItem(at: indexPath) as? PhotoCollectionViewCell
+        selectedCell?.imageView.alpha = 1
+        
+        if let selectedItems = collectionView.indexPathsForSelectedItems {
+            if (selectedItems.count == 0) {
+                newCollectionOrDeletionBarButton.title = "New Collection"
+            }
+        }
     }
 }

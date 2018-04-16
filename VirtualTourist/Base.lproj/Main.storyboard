@@ -86,7 +86,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="uNR-3n-wXV"/>
                                     <barButtonItem title="New Collection" id="T9r-cC-OyR">
                                         <connections>
-                                            <action selector="getNewCollectionOfPhotos:" destination="n1g-8D-WzB" id="rJm-KH-lXH"/>
+                                            <action selector="getNewCollectionOfPhotosOrDeletion:" destination="n1g-8D-WzB" id="G0Q-jA-PCK"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="L4t-ek-lLJ"/>
@@ -162,7 +162,7 @@
                     <connections>
                         <outlet property="collectionViewFlowLayout" destination="dZw-2B-cPl" id="Jd1-5Z-gOX"/>
                         <outlet property="mapView" destination="mu8-2M-tO4" id="kbj-v0-wYf"/>
-                        <outlet property="newCollectionBarButton" destination="T9r-cC-OyR" id="myl-5N-Cr1"/>
+                        <outlet property="newCollectionOrDeletionBarButton" destination="T9r-cC-OyR" id="GS9-Uk-vUq"/>
                         <outlet property="noImagesLabel" destination="e9X-09-v9z" id="Vlj-ZT-ZCN"/>
                         <outlet property="photoCollectionView" destination="OlD-G1-Isd" id="quG-53-FJY"/>
                     </connections>
