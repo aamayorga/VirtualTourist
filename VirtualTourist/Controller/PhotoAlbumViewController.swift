@@ -24,6 +24,7 @@ class PhotoAlbumViewController: UIViewController {
     var annotation: MKPointIDAnnotation!
     var dataController: DataController!
     var fetchedResultsController:NSFetchedResultsController<Photo>!
+    var currentPage = 1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,7 +95,7 @@ class PhotoAlbumViewController: UIViewController {
         print(photoCollectionView.numberOfItems(inSection: 0))
         
         let flickrClient = FlickrClient()
-        flickrClient.getNewSetOfFlickrPictures(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude) { (success, data, error) in
+        flickrClient.getNewSetOfFlickrPictures(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude, pageNumber: currentPage) { (success, data, error) in
             
             func sendError(_ error: String) {
                 self.photoCollectionView.isHidden = true
@@ -106,6 +107,8 @@ class PhotoAlbumViewController: UIViewController {
                 sendError(error!)
                 return
             }
+            
+            self.currentPage = self.currentPage + 1
             
             if (success) {
                 guard let flickrResults = data as? FlickrResults else {
@@ -119,8 +122,10 @@ class PhotoAlbumViewController: UIViewController {
                     self.savePicture(imageData)
                 })
                 
-                if self.photoCollectionView.numberOfItems(inSection: 0) == 0 {
-                    self.noImagesLabel.isHidden = false
+                DispatchQueue.main.async {
+                    if self.photoCollectionView.numberOfItems(inSection: 0) == 0 {
+                        self.noImagesLabel.isHidden = false
+                    }
                 }
                 
                 self.toggleUI()

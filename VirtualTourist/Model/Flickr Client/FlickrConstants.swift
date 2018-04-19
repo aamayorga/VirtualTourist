@@ -23,6 +23,7 @@ extension FlickrClient {
         static let NoJsonCallback = "nojsoncallback"
         static let Latitude = "lat"
         static let Longitude = "lon"
+        static let Page = "page"
     }
     
     struct FlickrParameterValues {

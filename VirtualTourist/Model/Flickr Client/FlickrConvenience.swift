@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension FlickrClient {
-    func getNewSetOfFlickrPictures(latitude: Double, longitude: Double, completionHandlerForNewSetOfFlickrPictures: @escaping (_ success: Bool, _ data: AnyObject?, _ errorString: String?) -> Void) {
+    func getNewSetOfFlickrPictures(latitude: Double, longitude: Double, pageNumber page: Int, completionHandlerForNewSetOfFlickrPictures: @escaping (_ success: Bool, _ data: AnyObject?, _ errorString: String?) -> Void) {
         
         let methodParameters = [FlickrParameterKeys.Method: FlickrParameterValues.PhotosSearch,
                                 FlickrParameterKeys.ApiKey: FlickrParameterValues.ApiKey,
@@ -18,7 +18,8 @@ extension FlickrClient {
                                 FlickrParameterKeys.Format: FlickrParameterValues.ResponseFormat,
                                 FlickrParameterKeys.NoJsonCallback: FlickrParameterValues.DisableJsonCallback,
                                 FlickrParameterKeys.Latitude: String(latitude),
-                                FlickrParameterKeys.Longitude: String(longitude)]
+                                FlickrParameterKeys.Longitude: String(longitude),
+                                FlickrParameterKeys.Page: String(page)]
         
         taskForGETMethod(methodParameters: methodParameters) { (data, error) in
             func sendError(_ errorMessage: String) {
