@@ -25,6 +25,7 @@ class PhotoAlbumViewController: UIViewController {
     var dataController: DataController!
     var fetchedResultsController:NSFetchedResultsController<Photo>!
     var currentPage = 1
+    var numberOfPlaceholders = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,10 +54,10 @@ class PhotoAlbumViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupFetchedResultsController()
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        setupFetchedResultsController()
+//    }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -66,13 +67,21 @@ class PhotoAlbumViewController: UIViewController {
     @IBAction func getNewCollectionOfPhotosOrDeletion(_ sender: UIBarButtonItem) {
         if (sender.title == "New Collection") {
             deleteAllPictures()
-            photoCollectionView.reloadData()
+            showResults()
             getNewSetOfPictures()
         } else {
             deletePictures()
-            photoCollectionView.reloadData()
+            showResults()
         }
         
+    }
+    
+    func showResults() {
+        
+        DispatchQueue.main.async {
+            
+            self.photoCollectionView.reloadData()
+        }
     }
     
     func setupFetchedResultsController() {
@@ -92,7 +101,6 @@ class PhotoAlbumViewController: UIViewController {
     }
     
     fileprivate func getNewSetOfPictures() {
-        print(photoCollectionView.numberOfItems(inSection: 0))
         
         let flickrClient = FlickrClient()
         flickrClient.getNewSetOfFlickrPictures(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude, pageNumber: currentPage) { (success, data, error) in
@@ -117,10 +125,13 @@ class PhotoAlbumViewController: UIViewController {
                 }
                 
                 self.toggleUI()
+            
+                self.addPlaceholder(flickrResults.photos.photo.count)
                 
                 flickrClient.parsePictures(fromResults: flickrResults, completionHandlerForPhoto: { (imageData) in
                     self.savePicture(imageData)
                 })
+                self.showResults()
                 
                 DispatchQueue.main.async {
                     if self.photoCollectionView.numberOfItems(inSection: 0) == 0 {
@@ -131,6 +142,29 @@ class PhotoAlbumViewController: UIViewController {
                 self.toggleUI()
             }
         }
+    }
+    
+    func addPlaceholder(_ placeholders: Int) {
+        
+        numberOfPlaceholders = placeholders
+        
+        if numberOfPlaceholders > 21 {
+            numberOfPlaceholders = 21
+        }
+        
+//        for _ in 0...amountOfPlaceholders {
+//            let picture = Photo(context: dataController.viewContext)
+//            picture.pin = pin
+//            picture.photo = UIImagePNGRepresentation(#imageLiteral(resourceName: "loading"))
+//        }
+//
+//        do {
+//            try dataController.viewContext.save()
+//        } catch {
+//            print("Could not save picture")
+//        }
+        showResults()
+        
     }
     
     func savePicture(_ imageData: Data) {
@@ -183,7 +217,11 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-            self.photoCollectionView.insertItems(at: [newIndexPath!])
+//            print(newIndexPath!.row)
+//            print(self.photoCollectionView.insertItems(at: [newIndexPath!]))
+            
+            //self.photoCollectionView.insertItems(at: [newIndexPath!])
+            numberOfPlaceholders = 0
         default:
             print("Unimplemented default action")
         }
@@ -193,16 +231,29 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
 extension PhotoAlbumViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         collectionView.allowsMultipleSelection = true
-        return fetchedResultsController.sections?[0].numberOfObjects ?? 1
+        
+        if fetchedResultsController.sections![section].numberOfObjects == 0 && numberOfPlaceholders != 0 {
+            return numberOfPlaceholders
+        }
+        print("Number of Items in section: ", fetchedResultsController.sections?[section].numberOfObjects)
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let photoData = fetchedResultsController.object(at: indexPath).photo
-        let photo = UIImage(data: photoData!)
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! PhotoCollectionViewCell
         
-        cell.imageView.image = photo
-        cell.imageView.backgroundColor = UIColor.black
+        if numberOfPlaceholders != 0 {
+            cell.imageView.image = #imageLiteral(resourceName: "loading")
+            cell.imageView.backgroundColor = UIColor.black
+        } else {
+            let photoData = fetchedResultsController.object(at: indexPath).photo
+            let photo = UIImage(data: photoData!)
+
+            cell.imageView.image = photo
+        }
+        
+//        let photoObjects = fetchedResultsController.fetchedObjects
+//        cell.initWithPhoto(photoObjects![indexPath.row])
         
         return cell
     }
