@@ -54,11 +54,6 @@ class PhotoAlbumViewController: UIViewController {
         }
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        setupFetchedResultsController()
-//    }
-    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         fetchedResultsController = nil
@@ -152,17 +147,6 @@ class PhotoAlbumViewController: UIViewController {
             numberOfPlaceholders = 21
         }
         
-//        for _ in 0...amountOfPlaceholders {
-//            let picture = Photo(context: dataController.viewContext)
-//            picture.pin = pin
-//            picture.photo = UIImagePNGRepresentation(#imageLiteral(resourceName: "loading"))
-//        }
-//
-//        do {
-//            try dataController.viewContext.save()
-//        } catch {
-//            print("Could not save picture")
-//        }
         showResults()
         
     }
@@ -217,10 +201,6 @@ extension PhotoAlbumViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
         case .insert:
-//            print(newIndexPath!.row)
-//            print(self.photoCollectionView.insertItems(at: [newIndexPath!]))
-            
-            //self.photoCollectionView.insertItems(at: [newIndexPath!])
             numberOfPlaceholders = 0
         default:
             print("Unimplemented default action")
@@ -251,9 +231,6 @@ extension PhotoAlbumViewController: UICollectionViewDataSource {
 
             cell.imageView.image = photo
         }
-        
-//        let photoObjects = fetchedResultsController.fetchedObjects
-//        cell.initWithPhoto(photoObjects![indexPath.row])
         
         return cell
     }

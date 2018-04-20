@@ -56,7 +56,7 @@ class FlickrClient: NSObject {
         completionHandlerForConvertData(parsedResult, nil)
     }
     
-    func flickrUrlFromParameter(_ parameters: [String: String]) -> URL {
+    fileprivate func flickrUrlFromParameter(_ parameters: [String: String]) -> URL {
         
         var components = URLComponents()
         components.scheme = FlickrURLComponents.ApiScheme
